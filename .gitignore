@@ -397,4 +397,5 @@ Temporary Items
 .env
 dist
 .webpack
+config/credentials.ts
 .serverless/**/*.zip
