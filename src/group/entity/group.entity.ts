@@ -17,7 +17,7 @@ export class Group {
   @Column('varchar', { length: 250 })
   groupId: string;
 
-  @Column('varchar', { length: 250 })
+  @Column('varchar', { length: 250 ,nullable:true})
   description: string;
 
   @Column()

@@ -14,11 +14,11 @@ export class GroupService {
 
   async getGroups(groupId: string) {
     try{
-      const Group = await this.GroupRepository.findOne({
+      const group = await this.GroupRepository.findOne({
         where: { id: groupId },
       });
   
-      return Group;
+      return group;
     }catch(e){
       throw Error(e);
     }

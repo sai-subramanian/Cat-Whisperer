@@ -46,7 +46,6 @@ export class QuestionsService {
     try{
       const question = new Questions();
       Object.assign(question, request);
-      question.id = new uuidv4();
       question.isActive= true;
       await this.QuestionsRepository.save(question);
 
@@ -59,12 +58,12 @@ export class QuestionsService {
 
   async addQuestionsBulk(requests: addQuestionsDto[]) {
     try{
-        let rep:Questions[];
-        for(const request in requests){
+        let rep:Questions[]= [];
+        for(const request of requests){
             const question = new Questions();
             Object.assign(question, request);
-            question.id = new uuidv4();
             question.isActive= true;
+            await this.QuestionsRepository.save(question);
             rep.push(await this.QuestionsRepository.save(question));
         }
         

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Group } from '../../group/entity/group.entity';
 
 @Entity()
@@ -10,6 +10,7 @@ export class Questions {
   description: string;
 
   @ManyToOne(() => Group, (Group) => Group.id)
+  @JoinColumn({ name: 'groupId' })
   groupId: Group;
 
   @Column()
