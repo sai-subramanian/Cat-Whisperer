@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
   port: Config.Database.Port,
   username: Config.Database.Username,
   password: Config.Database.Password,
-  //database: Config.Database.Database,
+  database: Config.Database.DataBase,
   synchronize: false,
   logging: false,
   entities: [join(__dirname, '../**', '*.entity.{ts,js}')],
