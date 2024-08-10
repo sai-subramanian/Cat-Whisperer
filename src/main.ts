@@ -6,3 +6,11 @@ async function bootstrap() {
   await app.listen(3000);
 }
 bootstrap();
+
+
+/*
+1) create module questionair
+2) create module responses
+3) create document module- save to s3 -  save signed url to responses 
+4) create image storing in document module
+*/ 

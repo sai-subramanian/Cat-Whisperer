@@ -3,9 +3,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Product } from '../../product/entity/product.entity';
+import { Questions } from '../../questions/entity/questions.entity';
 
 @Entity()
 export class Group {
@@ -16,7 +18,7 @@ export class Group {
   groupId: string;
 
   @Column('varchar', { length: 250 })
-  discription: string;
+  description: string;
 
   @Column()
   isActive: boolean;
@@ -27,4 +29,7 @@ export class Group {
   @ManyToMany(() => Product, (Product) => Product.id)
   @JoinTable()
   Products: Product[];
+
+  @OneToMany(() => Questions, Questions => Questions.id)
+  products: Product[];
 }
