@@ -1,8 +1,10 @@
-import { Column, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Group } from "../../group/entity/group.entity";
 
+@Entity()
 export class Product{
     @PrimaryGeneratedColumn('uuid')
-    id:string;
+    id: string;
 
     @Column('varchar',{length:250})
     name:string;
@@ -12,5 +14,8 @@ export class Product{
 
     @Column()
     isActive:boolean;
+
+    @ManyToMany(() => Group, (Group) => Group.id)
+     subAreas: Group[];
 
 }

@@ -1,12 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { addProductDto, updateProductDto } from './dto/product.dto';
 import { ProductService } from './product.service';
 
 @Controller('/product')
 export class ProductController {
   constructor(private productService: ProductService) {}
+
   @Get()
-  async getProducts(@Param() productId: string) {
+  async getProducts(@Query('productId') productId: string) {
     try {
       return await this.productService.getProducts(productId);
     } catch (e) {
@@ -19,24 +20,24 @@ export class ProductController {
     try {
       return await this.productService.addProduct(request);
     } catch (e) {
-      return Error(e);
+      return { isSuccess: false, message: e?.message || JSON.stringify(e) };
     }
   }
 
-  @Post()
+  @Put('/update')
   async updateProducts(
-    @Param() productId: string,
+    @Query('productId') productId: string,
     @Body() request: updateProductDto,
   ) {
     try {
       return await this.productService.updateProduct(request, productId);
     } catch (e) {
-      return Error(e);
+      return { isSuccess: false, message: e?.message || JSON.stringify(e) };
     }
   }
 
   @Delete()
-  async deleteProducts(@Param() productId:string) {
+  async deleteProducts(@Query('productId') productId:string) {
     try {
         return await this.productService.deleteProduct(productId);
       } catch (e) {
