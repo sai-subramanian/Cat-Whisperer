@@ -4,5 +4,4 @@ export class addGroupDto {
 
 export class updateGroupDto {
   description?: string;
-  
 }

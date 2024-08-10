@@ -1,8 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { GroupService } from './group.service';
 import { addGroupDto, updateGroupDto } from './dto/group.dto';
-
-
 
 @Controller('/Group')
 export class GroupController {
@@ -39,11 +46,11 @@ export class GroupController {
   }
 
   @Delete()
-  async deleteGroups(@Query('groupId') groupId:string) {
+  async deleteGroups(@Query('groupId') groupId: string) {
     try {
-        return await this.groupService.deleteGroup(groupId);
-      } catch (e) {
-        return Error(e);
-      }
+      return await this.groupService.deleteGroup(groupId);
+    } catch (e) {
+      return Error(e);
+    }
   }
 }

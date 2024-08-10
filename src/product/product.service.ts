@@ -13,20 +13,19 @@ export class ProductService {
   ) {}
 
   async getProducts(productId: string) {
-    try{
+    try {
       const product = await this.ProductRepository.findOne({
         where: { id: productId },
       });
-  
+
       return product;
-    }catch(e){
+    } catch (e) {
       throw Error(e);
     }
-   
   }
 
   async addProduct(request: addProductDto) {
-    try{
+    try {
       const product = new Product();
       Object.assign(product, request);
       product.id = uuidv4();
@@ -35,18 +34,17 @@ export class ProductService {
       await this.ProductRepository.save(product);
 
       return product;
-    }catch(e){
+    } catch (e) {
       throw Error(e);
     }
-    
   }
 
   async updateProduct(request: updateProductDto, productId: string) {
-    try{
-        // const productToUpdate = await this.ProductRepository.findOne({where:{id:productId}})
+    try {
+      // const productToUpdate = await this.ProductRepository.findOne({where:{id:productId}})
 
       this.ProductRepository.update({ id: productId }, request);
-    }catch(e){
+    } catch (e) {
       throw Error(e);
     }
   }

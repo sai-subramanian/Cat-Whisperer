@@ -1,8 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { addQuestionsDto, updateQuestionsDto } from './dto/questions.dto';
-
-
 
 @Controller('/questions')
 export class QuestionsController {
@@ -21,6 +28,15 @@ export class QuestionsController {
   async getQuestionsByGroupId(@Query('groupId') groupId: string) {
     try {
       return await this.questionsService.getQuestionsOnGroup(groupId);
+    } catch (e) {
+      return Error(e);
+    }
+  }
+
+  @Get('/byProductId')
+  async getQuestionsByProductId(@Query('productId') productId: string) {
+    try {
+      return await this.questionsService.getQuestionsOnProduct(productId);
     } catch (e) {
       return Error(e);
     }
@@ -50,18 +66,21 @@ export class QuestionsController {
     @Body() request: updateQuestionsDto,
   ) {
     try {
-      return await this.questionsService.updateQuestionById(request,questionId);
+      return await this.questionsService.updateQuestionById(
+        request,
+        questionId,
+      );
     } catch (e) {
       return { isSuccess: false, message: e?.message || JSON.stringify(e) };
     }
   }
 
   @Delete()
-  async deleteGroups(@Query('questionId') questionId:string) {
+  async deleteGroups(@Query('questionId') questionId: string) {
     try {
-        return await this.questionsService.deleteQuestion(questionId);
-      } catch (e) {
-        return Error(e);
-      }
+      return await this.questionsService.deleteQuestion(questionId);
+    } catch (e) {
+      return Error(e);
+    }
   }
 }

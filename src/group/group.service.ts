@@ -3,30 +3,43 @@ import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { Group } from './entity/group.entity';
 import { addGroupDto, updateGroupDto } from './dto/group.dto';
-
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class GroupService {
   constructor(
     @Inject('GROUP_REPOSITORY')
     private GroupRepository: Repository<Group>,
+    private productService: ProductService,
   ) {}
 
   async getGroups(groupId: string) {
-    try{
+    try {
       const group = await this.GroupRepository.findOne({
         where: { id: groupId },
       });
-  
+
       return group;
-    }catch(e){
+    } catch (e) {
       throw Error(e);
     }
-   
+  }
+
+  async getGroupsByProductId(productId: string) {
+    try {
+      const product = await this.productService.getProducts(productId);
+      const group = await this.GroupRepository.findOne({
+        where: { products: product },
+      });
+
+      return group;
+    } catch (e) {
+      throw Error(e);
+    }
   }
 
   async addGroup(request: addGroupDto) {
-    try{
+    try {
       const group = new Group();
       Object.assign(group, request);
       group.id = uuidv4();
@@ -36,18 +49,17 @@ export class GroupService {
       await this.GroupRepository.save(group);
 
       return group;
-    }catch(e){
+    } catch (e) {
       throw Error(e);
     }
-    
   }
 
   async updateGroup(request: updateGroupDto, GroupId: string) {
-    try{
-        // const GroupToUpdate = await this.GroupRepository.findOne({where:{id:GroupId}})
+    try {
+      // const GroupToUpdate = await this.GroupRepository.findOne({where:{id:GroupId}})
 
       this.GroupRepository.update({ id: GroupId }, request);
-    }catch(e){
+    } catch (e) {
       throw Error(e);
     }
   }

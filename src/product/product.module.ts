@@ -4,8 +4,9 @@ import { ProductService } from './product.service';
 import { ProductRepository } from './product.provider';
 import { DatabaseModule } from '../database/database.module';
 @Module({
-    imports: [DatabaseModule],
+  imports: [DatabaseModule],
   controllers: [ProductController],
   providers: [ProductService, ...ProductRepository],
+  exports: [ProductService],
 })
 export class ProductModule {}

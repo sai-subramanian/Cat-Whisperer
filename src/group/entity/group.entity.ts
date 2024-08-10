@@ -17,7 +17,7 @@ export class Group {
   @Column('varchar', { length: 250 })
   groupId: string;
 
-  @Column('varchar', { length: 250 ,nullable:true})
+  @Column('varchar', { length: 250, nullable: true })
   description: string;
 
   @Column()
@@ -30,6 +30,6 @@ export class Group {
   @JoinTable()
   Products: Product[];
 
-  @OneToMany(() => Questions, Questions => Questions.id)
+  @OneToMany(() => Questions, (Questions) => Questions.id)
   products: Product[];
 }

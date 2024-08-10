@@ -6,7 +6,7 @@ import { GroupModule } from './group/group.module';
 import { QuestionsModule } from './questions/questions.module';
 
 @Module({
-  imports: [ProductModule,GroupModule, QuestionsModule ],
+  imports: [ProductModule, GroupModule, QuestionsModule],
   controllers: [AppController],
   providers: [AppService],
 })

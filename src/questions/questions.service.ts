@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Questions } from './entity/questions.entity';
 import { GroupService } from '../group/group.service';
 import { addQuestionsDto, updateQuestionsDto } from './dto/questions.dto';
-
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class QuestionsService {
@@ -12,75 +12,84 @@ export class QuestionsService {
     @Inject('QUESTIONS_REPOSITORY')
     private QuestionsRepository: Repository<Questions>,
     private groupService: GroupService,
-    
+    private productService: ProductService,
   ) {}
 
   async getQuestionsById(questionId: string) {
-    try{
+    try {
       const question = await this.QuestionsRepository.findOne({
-        where: { id:questionId },
+        where: { id: questionId },
       });
-  
+
       return question;
-    }catch(e){
+    } catch (e) {
       throw Error(e);
     }
-   
   }
 
   async getQuestionsOnGroup(groupId: string) {
-    try{
+    try {
       const grp = await this.groupService.getGroups(groupId);
       const questions = await this.QuestionsRepository.find({
-        where: { groupId:grp },
+        where: { groupId: grp },
       });
-  
+
       return questions;
-    }catch(e){
+    } catch (e) {
       throw Error(e);
     }
-   
+  }
+
+  async getQuestionsOnProduct(productId: string) {
+    try {
+      const grp = await this.groupService.getGroupsByProductId(productId);
+
+      const questions = await this.QuestionsRepository.find({
+        where: { groupId: grp },
+      });
+
+      return questions;
+    } catch (e) {
+      throw Error(e);
+    }
   }
 
   async addQuestions(request: addQuestionsDto) {
-    try{
+    try {
       const question = new Questions();
       Object.assign(question, request);
-      question.isActive= true;
+      question.isActive = true;
       await this.QuestionsRepository.save(question);
 
       return question;
-    }catch(e){
+    } catch (e) {
       throw Error(e);
     }
-    
   }
 
   async addQuestionsBulk(requests: addQuestionsDto[]) {
-    try{
-        let rep:Questions[]= [];
-        for(const request of requests){
-            const question = new Questions();
-            Object.assign(question, request);
-            question.isActive= true;
-            await this.QuestionsRepository.save(question);
-            rep.push(await this.QuestionsRepository.save(question));
-        }
-        
+    try {
+      let rep: Questions[] = [];
+      for (const request of requests) {
+        const question = new Questions();
+        Object.assign(question, request);
+        question.isActive = true;
+        await this.QuestionsRepository.save(question);
+        rep.push(await this.QuestionsRepository.save(question));
+      }
 
-        return rep;
-    }catch(e){
+      return rep;
+    } catch (e) {
       throw Error(e);
     }
-    
   }
 
   async updateQuestionById(request: updateQuestionsDto, Questionid: string) {
-    try{
-        // const GroupToUpdate = await this.GroupRepository.findOne({where:{id:GroupId}})
+    try {
+      // const GroupToUpdate = await this.GroupRepository.findOne({where:{id:GroupId}})
 
       this.QuestionsRepository.update({ id: Questionid }, request);
-    }catch(e){
+    } catch (e) {
       throw Error(e);
     }
   }
